@@ -13,18 +13,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class PersonController {
 
+
+	private PersonRepository repository;
 	private EntityManager entityManager;
 
 	@Autowired
-	public PersonController(EntityManager entityManager) {
+	public PersonController(PersonRepository repository, EntityManager entityManager) {
+		this.repository = repository;
 		this.entityManager = entityManager;
 	}
 	
 	@RequestMapping
 	public List<Person> getAllPersons() {
-		TypedQuery<Person> query
-				= entityManager.createQuery("select p from Person p", Person.class);
-		return query.getResultList();
+		//return entityManager.createQuery("select p from Person p where p.name = 'Walter'")
+		return repository.findByName("Walter");
 	}
 	
 }
